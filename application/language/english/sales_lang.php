@@ -57,4 +57,10 @@ $lang['sales_quantity_less_than_zero'] = 'Warning, Desired Quantity is Insuffici
 $lang['sales_delivery_date'] = 'Delivery Date';
 $lang['sales_delivery_time'] = 'Delivery Time';
 $lang['sales_balance'] = 'Balance';
+$lang['sales_edit_sale'] = 'Edit Sale';
+$lang['sales_balance_required'] = 'Sale balance required';
+$lang['sales_delivery_date_required'] = 'Sale delivery required';
+$lang['sales_delivery_time_required'] = 'Sale delivery time required';
+$lang['sales_successfully_updated'] = 'Sale sucessfully updated';
+$lang['sales_unsuccessfully_updated'] = 'Sale unsucessfully updated';
 ?>
