@@ -823,6 +823,41 @@ class Reports extends Secure_area
 		$this->load->view('reports/driver_input', $data);
 	}
 	
+	function debt($export_excel=0)
+	{
+		$this->load->model('reports/Debt');
+		$model = $this->Debt;
+		
+		$headers = $model->getDataColumns();
+		$report_data = $model->getData(array());
+		
+		$summary_data = array();
+		$details_data = array();
+		
+		foreach($report_data['summary'] as $key=>$row)
+		{
+			$summary_data[] = array(anchor('sales/receipt/'.$row['sale_id'], 'POS '.$row['sale_id'], array('target' => '_blank')), to_currency($row['balance']), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']),to_currency($row['profit']), $row['payment_type'], $row['comment']);
+			
+			foreach($report_data['details'][$key] as $drow)
+			{
+				$details_data[$key][] = array($drow['name'], $drow['category'], $drow['serialnumber'], $drow['description'], $drow['quantity_purchased'], to_currency($drow['subtotal']), to_currency($drow['total']), to_currency($drow['tax']),to_currency($drow['profit']), $drow['discount_percent'].'%');
+			}
+		}
+
+		$data = array(
+			"title" =>$this->lang->line('reports_debt_report'),
+			"subtitle" => '',
+			"headers" => $model->getDataColumns(),
+			"summary_data" => $summary_data,
+			"details_data" => $details_data,
+			"overall_summary_data" => $model->getSummaryData(array()),
+			"export_excel" => $export_excel
+		);
+
+		$this->load->view("reports/tabular_details",$data);
+		
+	}
+	
 	function driver($delivery_date, $delivery_time, $zone, $export_excel=0)
 	{
 			$this->load->model('reports/Driver');

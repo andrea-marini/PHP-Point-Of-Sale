@@ -88,4 +88,6 @@ $lang['reports_zone'] = "Zone";
 $lang['reports_delivery_time'] = "Delivery Time";
 $lang['reports_quanitity_needed'] = 'Quantity Needed';
 $lang['reports_driver'] = 'Driver Report';
+$lang['reports_debt'] = 'Debt';
+$lang['reports_debt_report'] = 'Debt Report';
 ?>
