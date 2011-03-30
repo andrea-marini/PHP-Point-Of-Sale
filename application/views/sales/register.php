@@ -229,8 +229,19 @@ else
 				<?php echo form_open("sales/complete",array('id'=>'finish_sale_form')); ?>
 				<label id="comment_label" for="comment"><?php echo $this->lang->line('common_comments'); ?>:</label>
 				<?php echo form_textarea(array('name'=>'comment','value'=>'','rows'=>'4','cols'=>'23'));?>
-				<br><br>
-
+				<br /><br />
+				
+				<table border="0">
+					<tr>
+						<td><label id="delivery_date_label" for="delivery_date"><?php echo $this->lang->line('sales_delivery_date'); ?>:</label></td>
+						<td><?php echo form_input(array('name'=>'delivery_date','id'=>'delivery_date'));?></td>
+					</tr>
+						
+					<tr>
+						<td><label id="delivery_time_label" for="delivery_time"><?php echo $this->lang->line('sales_delivery_time'); ?>:</label></td>
+						<td><?php echo form_dropdown('delivery_time',array('AM' => 'AM', 'PM' => 'PM'));?></td>
+					</tr>
+				</table>
 				<?php echo "<div class='small_button' id='finish_sale_button' style='float:left;margin-top:5px;'><span>".$this->lang->line('sales_complete_sale')."</span></div>";
 				?>
 			</div>
@@ -336,6 +347,11 @@ else
 <script type="text/javascript" language="javascript">
 $(document).ready(function()
 {
+	var today = new Date();
+	$('#delivery_date').datePicker({startDate: '01/01/1970'});
+	$("#delivery_date").val(today.asString());
+	
+	
     $("#item").autocomplete('<?php echo site_url("sales/item_search"); ?>',
     {
     	minChars:0,

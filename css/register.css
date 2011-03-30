@@ -117,3 +117,8 @@
 	clear:both;
 }
 
+#delivery_date_label
+{
+	float: left;
+}
+

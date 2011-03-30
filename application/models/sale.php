@@ -17,7 +17,7 @@ class Sale extends Model
 		return ($query->num_rows()==1);
 	}
 
-	function save ($items,$customer_id,$employee_id,$comment,$payments,$sale_id=false)
+	function save ($items,$customer_id,$employee_id, $delivery_date, $delivery_time, $comment,$payments,$sale_id=false)
 	{
 		if(count($items)==0)
 			return -1;
@@ -35,6 +35,8 @@ class Sale extends Model
 			'customer_id'=> $this->Customer->exists($customer_id) ? $customer_id : null,
 			'employee_id'=>$employee_id,
 			'payment_type'=>$payment_types,
+			'delivery_date'=>$delivery_date,
+			'delivery_time'=>$delivery_time,
 			'comment'=>$comment
 		);
 

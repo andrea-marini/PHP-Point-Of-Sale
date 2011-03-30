@@ -310,6 +310,8 @@ CREATE TABLE `phppos_receivings_items` (
 
 CREATE TABLE `phppos_sales` (
   `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `delivery_date` DATE NOT NULL AFTER  `sale_time`,
+  `delivery_time` VARCHAR( 255 ) NOT NULL AFTER  `delivery_date`,
   `customer_id` int(10) DEFAULT NULL,
   `employee_id` int(10) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
