@@ -20,11 +20,7 @@ echo form_open('customers/save/'.$person_info->person_id,array('id'=>'customer_f
 <div class="field_row clearfix">
 <?php echo form_label($this->lang->line('customers_zone').':', 'zone',array('class'=>'required')); ?>
 	<div class='form_field'>
-	<?php echo form_input(array(
-		'name'=>'zone',
-		'id'=>'zone',
-		'value'=>$person_info->zone)
-	);?>
+		<?php echo form_dropdown('zone', array('' => '--Select a Zone--', 'Flatbush' => 'Flatbush', 'Williamsburg' => 'Williamsburg', 'Boro Park' => 'Boro Park'), $person_info->zone, 'id="zone"'); ?>
 	</div>
 </div>
 
@@ -52,9 +48,6 @@ echo form_close();
 //validation and submit handling
 $(document).ready(function()
 {
-	$("#zone").autocomplete("<?php echo site_url('customers/suggest_zone');?>",{max:100,minChars:0,delay:10});
-    $("#zone").result(function(event, data, formatted){});
-	
 	$('#customer_form').validate({
 		submitHandler:function(form)
 		{
