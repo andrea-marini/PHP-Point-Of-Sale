@@ -81,4 +81,9 @@ $lang['reports_received_by'] = 'Received By';
 $lang['reports_supplied_by'] = 'Supplied by';
 $lang['reports_items_received'] = 'Items Received';
 $lang['reports_detailed_receivings_report'] = 'Detailed Receivings Report';
+$lang['reports_delivery'] = "Delivery Report";
+$lang['reports_select_delivery_date'] = "Select Delivery Date";
+$lang['reports_select_delivery_time'] = "Select Delivery Time";
+$lang['reports_zone'] = "Zone";
+$lang['reports_delivery_time'] = "Delivery Time";
 ?>
