@@ -241,6 +241,11 @@ else
 						<td><label id="delivery_time_label" for="delivery_time"><?php echo $this->lang->line('sales_delivery_time'); ?>:</label></td>
 						<td><?php echo form_dropdown('delivery_time',array('AM' => 'AM', 'PM' => 'PM'));?></td>
 					</tr>
+					
+					<tr>
+						<td><label id="balance_label" for="balance"><?php echo $this->lang->line('sales_balance'); ?>:</label></td>
+						<td><?php echo form_input(array('name'=>'balance','id'=>'balance', 'value' => '0.00', 'size' => 8));?></td>
+					</tr>					
 				</table>
 				<?php echo "<div class='small_button' id='finish_sale_button' style='float:left;margin-top:5px;'><span>".$this->lang->line('sales_complete_sale')."</span></div>";
 				?>

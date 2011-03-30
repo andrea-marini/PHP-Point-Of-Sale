@@ -169,6 +169,7 @@ class Sales extends Secure_area
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
 		$delivery_date = date('Y-m-d', strtotime($this->input->post('delivery_date')));
 		$delivery_time = $this->input->post('delivery_time');
+		$balance = $this->input->post('balance');
 		$comment = $this->input->post('comment');
 		$emp_info=$this->Employee->get_info($employee_id);
 		$payment_type = $this->input->post('payment_type');
@@ -200,7 +201,7 @@ class Sales extends Secure_area
 		}
 
 		//SAVE sale to database
-		$data['sale_id']='POS '.$this->Sale->save($data['cart'], $customer_id,$employee_id, $delivery_date, $delivery_time, $comment,$data['payments']);
+		$data['sale_id']='POS '.$this->Sale->save($data['cart'], $customer_id,$employee_id, $delivery_date, $delivery_time, $balance, $comment,$data['payments']);
 		if ($data['sale_id'] == 'POS -1')
 		{
 			$data['error_message'] = $this->lang->line('sales_transaction_failed');
