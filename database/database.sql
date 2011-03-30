@@ -46,7 +46,7 @@ CREATE TABLE `phppos_customers` (
   `person_id` int(10) NOT NULL,
   `account_number` varchar(255) DEFAULT NULL,
   `taxable` int(1) NOT NULL DEFAULT '1',
-  `zone` VARCHAR( 255 ) NOT NULL AFTER,
+  `zone` VARCHAR( 255 ) NOT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `account_number` (`account_number`),
   KEY `person_id` (`person_id`)
@@ -310,8 +310,8 @@ CREATE TABLE `phppos_receivings_items` (
 
 CREATE TABLE `phppos_sales` (
   `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `delivery_date` DATE NOT NULL AFTER  `sale_time`,
-  `delivery_time` VARCHAR( 255 ) NOT NULL AFTER  `delivery_date`,
+  `delivery_date` DATE NOT NULL,
+  `delivery_time` VARCHAR( 255 ) NOT NULL,
   `balance` DOUBLE( 15, 2 ) NOT NULL,
   `customer_id` int(10) DEFAULT NULL,
   `employee_id` int(10) NOT NULL DEFAULT '0',
