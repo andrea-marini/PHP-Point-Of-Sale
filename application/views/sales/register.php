@@ -221,8 +221,8 @@ else
     	</div>
 		<div class="clearfix" style="margin-bottom:1px;">&nbsp;</div>
 		<?php
-		// Only show this part if there is at least one payment entered.
-		if(count($payments) > 0)
+		// Only show this part if there is at least one payment entered and a customer has been chosen
+		if(count($payments) > 0 && isset($customer))
 		{
 		?>
 			<div id="finish_sale">
