@@ -17,6 +17,17 @@ echo form_open('customers/save/'.$person_info->person_id,array('id'=>'customer_f
 	</div>
 </div>
 
+<div class="field_row clearfix">
+<?php echo form_label($this->lang->line('customers_zone').':', 'zone',array('class'=>'required')); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'zone',
+		'id'=>'zone',
+		'value'=>$person_info->zone)
+	);?>
+	</div>
+</div>
+
 <div class="field_row clearfix">	
 <?php echo form_label($this->lang->line('customers_taxable').':', 'taxable'); ?>
 	<div class='form_field'>
@@ -41,6 +52,9 @@ echo form_close();
 //validation and submit handling
 $(document).ready(function()
 {
+	$("#zone").autocomplete("<?php echo site_url('customers/suggest_zone');?>",{max:100,minChars:0,delay:10});
+    $("#zone").result(function(event, data, formatted){});
+	
 	$('#customer_form').validate({
 		submitHandler:function(form)
 		{
@@ -60,13 +74,15 @@ $(document).ready(function()
 		{
 			first_name: "required",
 			last_name: "required",
-    		email: "email"
+    		email: "email",
+			zone: "required"
    		},
 		messages: 
 		{
      		first_name: "<?php echo $this->lang->line('common_first_name_required'); ?>",
      		last_name: "<?php echo $this->lang->line('common_last_name_required'); ?>",
-     		email: "<?php echo $this->lang->line('common_email_invalid_format'); ?>"
+     		email: "<?php echo $this->lang->line('common_email_invalid_format'); ?>",
+     		zone: "<?php echo $this->lang->line('customers_zone_required'); ?>"
 		}
 	});
 });

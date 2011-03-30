@@ -213,7 +213,25 @@ class Customer extends Person
 			$suggestions = array_slice($suggestions, 0,$limit);
 		}
 		return $suggestions;
-
+	}
+	
+	function get_zone_search_suggestions($search, $limit=25)
+	{
+		$suggestions = array();
+		
+		$this->db->distinct();
+		$this->db->select('zone');
+		$this->db->from('customers');
+		$this->db->like('zone', $search);
+		$this->db->order_by("zone", "asc");
+				
+		$by_zone = $this->db->get();
+		foreach($by_zone->result() as $row)
+		{
+			$suggestions[]=$row->zone;		
+		}
+		
+		return $suggestions;
 	}
 	/*
 	Preform a search on customers

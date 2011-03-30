@@ -44,6 +44,15 @@ class Customers extends Person_controller
 	}
 	
 	/*
+	Gives search suggestions based on what is being searched for
+	*/
+	function suggest_zone()
+	{
+		$suggestions = $this->Customer->get_zone_search_suggestions($this->input->post('q'));
+		echo implode("\n",$suggestions);
+	}
+	
+	/*
 	Inserts/updates a customer
 	*/
 	function save($customer_id=-1)
@@ -63,6 +72,7 @@ class Customers extends Person_controller
 		);
 		$customer_data=array(
 		'account_number'=>$this->input->post('account_number')=='' ? null:$this->input->post('account_number'),
+		'zone'=>$this->input->post('zone'),
 		'taxable'=>$this->input->post('taxable')=='' ? 0:1,
 		);
 		if($this->Customer->save($person_data,$customer_data,$customer_id))

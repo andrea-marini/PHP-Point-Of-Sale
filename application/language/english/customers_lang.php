@@ -13,4 +13,6 @@ $lang['customers_cannot_be_deleted']='Could not deleted selected customers, one 
 $lang['customers_basic_information']='Customer Information';
 $lang['customers_account_number']='Account #';
 $lang['customers_taxable']='Taxable';
+$lang['customers_zone'] = 'Zone';
+$lang['customers_zone_required'] = 'Zone is a required field';
 ?>
