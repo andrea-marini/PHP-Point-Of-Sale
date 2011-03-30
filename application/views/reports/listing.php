@@ -34,6 +34,7 @@
 	<li><h3><?php echo $this->lang->line('reports_detailed_reports'); ?></h3>
 		<ul>
 			<li><a href="<?php echo site_url('reports/delivery');?>"><?php echo $this->lang->line('reports_delivery'); ?></a></li>
+			<li><a href="<?php echo site_url('reports/driver');?>"><?php echo $this->lang->line('reports_driver'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/detailed_sales');?>"><?php echo $this->lang->line('reports_sales'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/detailed_receivings');?>"><?php echo $this->lang->line('reports_receivings'); ?></a></li>
 			<li><a href="<?php echo site_url('reports/specific_customer');?>"><?php echo $this->lang->line('reports_customer'); ?></a></li>

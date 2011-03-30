@@ -86,4 +86,6 @@ $lang['reports_select_delivery_date'] = "Select Delivery Date";
 $lang['reports_select_delivery_time'] = "Select Delivery Time";
 $lang['reports_zone'] = "Zone";
 $lang['reports_delivery_time'] = "Delivery Time";
+$lang['reports_quanitity_needed'] = 'Quantity Needed';
+$lang['reports_driver'] = 'Driver Report';
 ?>

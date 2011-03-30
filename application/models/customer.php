@@ -233,6 +233,16 @@ class Customer extends Person
 		
 		return $suggestions;
 	}
+	
+	function get_distinct_zones()
+	{
+		$this->db->distinct();
+		$this->db->select('zone');
+		$this->db->from('customers');
+		$this->db->order_by("zone", "asc");
+				
+		return $this->db->get();
+	}
 	/*
 	Preform a search on customers
 	*/

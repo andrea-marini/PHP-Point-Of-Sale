@@ -812,6 +812,40 @@ class Reports extends Secure_area
 		$this->load->view("reports/tabular_details",$data);
 	}
 	
+	function driver_input()
+	{
+		$data = $this->_get_common_report_data();
+		foreach ($this->Customer->get_distinct_zones()->result() as $zone)
+		{
+			$data['zones'][$zone->zone] = $zone->zone;
+		}
+		
+		$this->load->view('reports/driver_input', $data);
+	}
+	
+	function driver($delivery_date, $delivery_time, $zone, $export_excel=0)
+	{
+			$this->load->model('reports/Driver');
+			$model = $this->Driver;
+			$tabular_data = array();
+			$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone));
+
+			foreach($report_data as $row)
+			{
+				$tabular_data[] = array($row['name'], $row['quantity_purchased']);
+			}
+
+			$data = array(
+				"title" => $this->lang->line('reports_driver'),
+				"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time. '-'.$zone,
+				"headers" => $model->getDataColumns(),
+				"data" => $tabular_data,
+				"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone)),
+				"export_excel" => $export_excel
+			);
+
+			$this->load->view("reports/tabular",$data);
+	}
 	
 	function excel_export()
 	{
