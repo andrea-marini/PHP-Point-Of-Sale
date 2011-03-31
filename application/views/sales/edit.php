@@ -79,7 +79,6 @@ $(document).ready(function()
 			$(form).ajaxSubmit({
 			success:function(response)
 			{
-				console.log(response);
 				if(response.success)
 				{
 					set_feedback(response.message,'success_message',false);
