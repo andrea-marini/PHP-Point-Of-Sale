@@ -16,11 +16,11 @@ class Debt extends Report
 	
 	public function getData(array $inputs)
 	{
-		$this->db->select('sale_id, balance, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit, payment_type, comment', false);
+		$this->db->select('sale_id, sale_balance, sale_date, sum(quantity_purchased) as items_purchased, CONCAT(employee.first_name," ",employee.last_name) as employee_name, CONCAT(customer.first_name," ",customer.last_name) as customer_name, sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit, payment_type, comment', false);
 		$this->db->from('sales_items_temp');
 		$this->db->join('people as employee', 'sales_items_temp.employee_id = employee.person_id');
 		$this->db->join('people as customer', 'sales_items_temp.customer_id = customer.person_id', 'left');
-		$this->db->where('balance > 0');
+		$this->db->where('sale_balance > 0');
 		$this->db->group_by('sale_id');
 		$this->db->order_by('customer.last_name');
 
@@ -42,11 +42,18 @@ class Debt extends Report
 	
 	public function getSummaryData(array $inputs)
 	{
-		$this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit, sum(balance) as debt');
+		$this->db->select('sum(subtotal) as subtotal, sum(total) as total, sum(tax) as tax, sum(profit) as profit');
 		$this->db->from('sales_items_temp');
-		$this->db->where('balance > 0');
+		$this->db->where('sale_balance > 0');
+		$summary_data = $this->db->get()->row_array();
 		
-		return $this->db->get()->row_array();
+		$this->db->select('sum(balance) as debt');
+		$this->db->from('sales');
+		$debt_data = $this->db->get()->row_array();
+		
+		return array_merge($summary_data, $debt_data);
+		
+		
 	}
 }
 ?>
