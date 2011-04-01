@@ -61,8 +61,8 @@ class Sale extends Model
 			{
 				/* We have a gift card and we have to deduct the used value from the total value of the card. */
 				$splitpayment = explode( ':', $payment['payment_type'] );
-				$cur_giftcard_value = $this->getGiftcardValue( $splitpayment[1] );
-				$this->Giftcard->update( $splitpayment[1], $cur_giftcard_value - $payment['payment_amount'] );
+				$cur_giftcard_value = $this->get_giftcard_value( $splitpayment[1] );
+				$this->Giftcard->update_giftcard_value( $splitpayment[1], $cur_giftcard_value - $payment['payment_amount'] );
 			}
 
 			$sales_payments_data = array
@@ -192,7 +192,7 @@ class Sale extends Model
 		$this->db->query('UPDATE '.$this->db->dbprefix('sales_items_temp'). ' SET total=subtotal WHERE total IS NULL');
 	}
 	
-	public function getGiftcardValue( $giftcardNumber )
+	public function get_giftcard_value( $giftcardNumber )
 	{
 		if ( !$this->Giftcard->exists( $this->Giftcard->get_giftcard_id($giftcardNumber)))
 			return 0;
