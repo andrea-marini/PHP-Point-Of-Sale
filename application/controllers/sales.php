@@ -222,8 +222,7 @@ class Sales extends Secure_area
 		$data['receipt_title']=$this->lang->line('sales_receipt');
 		$data['transaction_time']= date('m/d/Y h:i:s a', strtotime($sale_info['sale_time']));
 		$customer_id=$this->sale_lib->get_customer();
-		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
-		$emp_info=$this->Employee->get_info($employee_id);
+		$emp_info=$this->Employee->get_info($sale_info['employee_id']);
 		$data['payment_type']=$sale_info['payment_type'];
 		$data['amount_change']=to_currency($this->sale_lib->get_amount_due() * -1);
 		$data['employee']=$emp_info->first_name.' '.$emp_info->last_name;
