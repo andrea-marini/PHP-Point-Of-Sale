@@ -83,7 +83,15 @@
 $(document).ready(function()
 {
 	$('#delivery_date').datePicker({startDate: '01/01/1970'});
-	
+
+	$("#sales_delete_form").submit(function()
+	{
+		if (!confirm('<?php echo $this->lang->line("sales_delete_confirmation"); ?>'))
+		{
+			return false;
+		}
+	});
+		
 	$('#sales_edit_form').validate({
 		submitHandler:function(form)
 		{
