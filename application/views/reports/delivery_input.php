@@ -23,6 +23,9 @@ if(isset($error))
 	<div id='reports_delivery_time'>
 		<?php echo form_dropdown('zone', $zones,'', 'id="zone"'); ?>
 	</div>
+	<?php echo form_label($this->lang->line('reports_sort_by_street_name'), 'sort_by_street_name_label'); ?>: 
+	<?php echo form_checkbox('sort_by_street_name', '1', TRUE,"id='sort_by_street_name'"); ?>
+	<br />
 
 <?php
 echo form_button(array(
@@ -43,7 +46,8 @@ $(document).ready(function()
 		var delivery_date = $("#year").val()+'-'+$("#month").val()+'-'+$('#day').val();
 		var delivery_time = $("#delivery_time").val();
 		var zone = $("#zone").val();
-		window.location = window.location+'/'+delivery_date + '/'+ delivery_time + '/'+ zone;
+		var sort_by_street_name = $("#sort_by_street_name").attr('checked') ? 1 : 0;
+		window.location = window.location+'/'+delivery_date + '/'+ delivery_time + '/'+ zone+ '/'+ sort_by_street_name;
 		
 	});	
 });

@@ -784,16 +784,16 @@ class Reports extends Secure_area
 		$this->load->view('reports/delivery_input', $data);
 	}
 	
-	function delivery($delivery_date, $delivery_time, $zone, $export_excel=0)
+	function delivery($delivery_date, $delivery_time, $zone, $sort_by_street_name, $export_excel=0)
 	{
 		$this->load->model('reports/Delivery');
 		$model = $this->Delivery;
 		$tabular_data = array();
-		$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone));
+		$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone, 'sort_by_street_name'=>$sort_by_street_name));
 
 		foreach($report_data as $row)
 		{
-			$tabular_data[] = array(anchor('sales/edit/'.$row['sale_id'], 'POS '.$row['sale_id'], array('target' => '_blank')), $row['items_purchased'], $row['customer_name'], $row['total'], $row['payment_type'], $row['comment']);
+			$tabular_data[] = array(anchor('sales/edit/'.$row['sale_id'], 'POS '.$row['sale_id'], array('target' => '_blank')), $row['items_purchased'], $row['customer_name'] .'<br />'.$row['address'], $row['total'], $row['payment_type'], $row['comment']);
 		}
 
 		$data = array(
@@ -801,7 +801,7 @@ class Reports extends Secure_area
 			"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time. '-'.$zone,
 			"headers" => $model->getDataColumns(),
 			"data" => $tabular_data,
-			"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone)),
+			"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone, 'sort_by_street_name'=>$sort_by_street_name)),
 			"export_excel" => $export_excel
 		);
 

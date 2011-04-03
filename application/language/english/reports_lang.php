@@ -90,4 +90,5 @@ $lang['reports_quanitity_needed'] = 'Quantity Needed';
 $lang['reports_driver'] = 'Driver Report';
 $lang['reports_debt'] = 'Debt';
 $lang['reports_debt_report'] = 'Debt Report';
+$lang['reports_sort_by_street_name'] = 'Sort By Street Name';
 ?>
