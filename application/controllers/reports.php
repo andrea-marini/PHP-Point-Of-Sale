@@ -775,52 +775,73 @@ class Reports extends Secure_area
 	function delivery_input()
 	{
 		$data = $this->_get_common_report_data();
+		$data['zones'] = array();
+		foreach ($this->Customer->get_distinct_zones()->result() as $zone)
+		{
+			$data['zones'][$zone->zone] = $zone->zone;
+		}
+		
 		$this->load->view('reports/delivery_input', $data);
 	}
 	
-	function delivery($delivery_date, $delivery_time, $export_excel=0)
+	function delivery($delivery_date, $delivery_time, $zone, $export_excel=0)
 	{
 		$this->load->model('reports/Delivery');
 		$model = $this->Delivery;
+		$tabular_data = array();
+		$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone));
 
-		$headers = $model->getDataColumns();
-		$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time));
-
-		$summary_data = array();
-		$details_data = array();
-
-		foreach($report_data['summary'] as $key=>$row)
+		foreach($report_data as $row)
 		{
-			$summary_data[] = array(anchor('sales/edit/'.$row['sale_id'], 'POS '.$row['sale_id'], array('target' => '_blank')), $row['sale_date'], $row['items_purchased'], $row['employee_name'], $row['customer_name'], to_currency($row['subtotal']), to_currency($row['total']), to_currency($row['tax']),to_currency($row['profit']), $row['payment_type'], $row['delivery_time'], $row['zone'], $row['comment']);
-
-			foreach($report_data['details'][$key] as $drow)
-			{
-				$details_data[$key][] = array($drow['name'], $drow['category'], $drow['serialnumber'], $drow['description'], $drow['quantity_purchased'], to_currency($drow['subtotal']), to_currency($drow['total']), to_currency($drow['tax']),to_currency($drow['profit']), $drow['discount_percent'].'%');
-			}
+			$tabular_data[] = array(anchor('sales/edit/'.$row['sale_id'], 'POS '.$row['sale_id'], array('target' => '_blank')), $row['items_purchased'], $row['customer_name'], $row['total'], $row['payment_type'], $row['comment']);
 		}
 
 		$data = array(
-			"title" =>$this->lang->line('reports_delivery'),
-			"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time,
+			"title" => $this->lang->line('reports_delivery'),
+			"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time. '-'.$zone,
 			"headers" => $model->getDataColumns(),
-			"summary_data" => $summary_data,
-			"details_data" => $details_data,
-			"overall_summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time)),
+			"data" => $tabular_data,
+			"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone)),
 			"export_excel" => $export_excel
 		);
 
-		$this->load->view("reports/tabular_details",$data);
+		$this->load->view("reports/tabular",$data);
 	}
 	
 	function driver_input()
 	{
 		$data = $this->_get_common_report_data();
+		$data['zones'] = array();
 		foreach ($this->Customer->get_distinct_zones()->result() as $zone)
 		{
 			$data['zones'][$zone->zone] = $zone->zone;
 		}
 		
 		$this->load->view('reports/driver_input', $data);
+	}
+	
+	function driver($delivery_date, $delivery_time, $zone, $export_excel=0)
+	{
+			$this->load->model('reports/Driver');
+			$model = $this->Driver;
+			$tabular_data = array();
+			$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone));
+
+			foreach($report_data as $row)
+			{
+				$tabular_data[] = array($row['name'], $row['quantity_purchased']);
+			}
+
+			$data = array(
+				"title" => $this->lang->line('reports_driver'),
+				"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time. '-'.$zone,
+				"headers" => $model->getDataColumns(),
+				"data" => $tabular_data,
+				"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone)),
+				"export_excel" => $export_excel
+			);
+
+			$this->load->view("reports/tabular",$data);
 	}
 	
 	function debt($export_excel=0)
@@ -856,30 +877,6 @@ class Reports extends Secure_area
 
 		$this->load->view("reports/tabular_details",$data);
 		
-	}
-	
-	function driver($delivery_date, $delivery_time, $zone, $export_excel=0)
-	{
-			$this->load->model('reports/Driver');
-			$model = $this->Driver;
-			$tabular_data = array();
-			$report_data = $model->getData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone));
-
-			foreach($report_data as $row)
-			{
-				$tabular_data[] = array($row['name'], $row['quantity_purchased']);
-			}
-
-			$data = array(
-				"title" => $this->lang->line('reports_driver'),
-				"subtitle" => date('m/d/Y', strtotime($delivery_date)) .'-'.$delivery_time. '-'.$zone,
-				"headers" => $model->getDataColumns(),
-				"data" => $tabular_data,
-				"summary_data" => $model->getSummaryData(array('delivery_date'=>$delivery_date, 'delivery_time'=>$delivery_time, 'zone'=>$zone)),
-				"export_excel" => $export_excel
-			);
-
-			$this->load->view("reports/tabular",$data);
 	}
 	
 	function excel_export()

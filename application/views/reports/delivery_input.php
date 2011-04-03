@@ -18,6 +18,12 @@ if(isset($error))
 	<div id='reports_delivery_time'>
 		<?php echo form_dropdown('delivery_time',array('AM'=>'AM', 'PM'=>'PM'),'', 'id="delivery_time"'); ?>
 	</div>
+	
+	<?php echo form_label($this->lang->line('reports_zone'), 'zone_label', array('class'=>'required')); ?>
+	<div id='reports_delivery_time'>
+		<?php echo form_dropdown('zone', $zones,'', 'id="zone"'); ?>
+	</div>
+
 <?php
 echo form_button(array(
 	'name'=>'generate_report',
@@ -36,7 +42,9 @@ $(document).ready(function()
 	{
 		var delivery_date = $("#year").val()+'-'+$("#month").val()+'-'+$('#day').val();
 		var delivery_time = $("#delivery_time").val();
-		window.location = window.location+'/'+delivery_date + '/'+ delivery_time;
+		var zone = $("#zone").val();
+		window.location = window.location+'/'+delivery_date + '/'+ delivery_time + '/'+ zone;
+		
 	});	
 });
 </script>
