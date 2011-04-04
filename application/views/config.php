@@ -230,7 +230,49 @@ echo form_open('config/save/',array('id'=>'config_form'));
 </div>
 
 <div class="field_row clearfix">	
-<?php echo form_label($this->lang->line('config_print_after_sale').':', 'print_after_sale',array('class'=>'wide')); ?>
+<?php echo form_label($this->lang->line('config_enable_credit_card_processing').':', 'enable_credit_card_processing',array('class'=>'extra_wide')); ?>
+	<div class='form_field'>
+	<?php echo form_checkbox(array(
+		'name'=>'enable_credit_card_processing',
+		'id'=>'enable_credit_card_processing',
+		'value'=>'1',
+		'checked'=>$this->config->item('enable_credit_card_processing')));?>
+	</div>
+</div>
+
+<div id="authorizenet_merchant_information">
+	<div class="field_row clearfix">	
+	<?php echo form_label($this->lang->line('config_authorize_net_api_login_id').':', 'authorize_net_api_login_id',array('class'=>'extra_wide')); ?>
+		<div class='form_field'>
+		<?php echo form_input(array(
+			'name'=>'authorize_net_api_login_id',
+			'id'=>'authorize_net_api_login_id',
+			'value'=>$this->config->item('authorize_net_api_login_id')));?>
+		</div>
+	</div>
+	
+	<div class="field_row clearfix">	
+	<?php echo form_label($this->lang->line('config_authorize_net_transaction_key').':', 'authorize_net_transaction_key',array('class'=>'extra_wide')); ?>
+		<div class='form_field'>
+		<?php echo form_input(array(
+			'name'=>'authorize_net_transaction_key',
+			'id'=>'authorize_net_transaction_key',
+			'value'=>$this->config->item('authorize_net_transaction_key')));?>
+		</div>
+	</div>
+	
+	<div class="field_row clearfix">	
+	<?php echo form_label($this->lang->line('config_authorize_net_md5_hash').':', 'authorize_net_md5_hash',array('class'=>'extra_wide')); ?>
+		<div class='form_field'>
+		<?php echo form_input(array(
+			'name'=>'authorize_net_md5_hash',
+			'id'=>'authorize_net_md5_hash',
+			'value'=>$this->config->item('authorize_net_md5_hash')));?>
+		</div>
+	</div>
+</div>
+<div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('config_print_after_sale').':', 'print_after_sale',array('class'=>'extra_wide')); ?>
 	<div class='form_field'>
 	<?php echo form_checkbox(array(
 		'name'=>'print_after_sale',
@@ -310,5 +352,18 @@ $(document).ready(function()
 		}
 	});
 });
+
+function check_enable_credit_card_processing()
+{
+	if($("#enable_credit_card_processing").attr('checked'))
+	{
+		$("#authorizenet_merchant_information").show();
+	}
+	else
+	{
+		$("#authorizenet_merchant_information").hide();
+	}
+	
+}
 </script>
 <?php $this->load->view("partial/footer"); ?>
