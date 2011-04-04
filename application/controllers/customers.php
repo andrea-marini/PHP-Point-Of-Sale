@@ -156,6 +156,7 @@ class Customers extends Person_controller
 					$customer_data=array(
 					'account_number'=>$data[11]=='' ? null:$data[11],
 					'taxable'=>$data[12]=='' ? 0:1,
+					'zone'=>$data[13],
 					);
 					
 					if(!$this->Customer->save($person_data,$customer_data))
