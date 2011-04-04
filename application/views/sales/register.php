@@ -306,7 +306,7 @@ else
 						
 					<tr>
 						<td><label id="delivery_time_label" for="delivery_time"><?php echo $this->lang->line('sales_delivery_time'); ?>:</label></td>
-						<td><?php echo form_dropdown('delivery_time',array('AM' => 'AM', 'PM' => 'PM'));?></td>
+						<td><?php echo form_dropdown('delivery_time',array('AM' => 'AM', 'PM' => 'PM'), '', "id='delivery_time'");?></td>
 					</tr>
 					
 					<tr>
@@ -474,7 +474,14 @@ $(document).ready(function()
 			<?php if (isset($payments[$this->lang->line('sales_integrated_credit_card')]))
 			{
 			?>
-	    		$('#credit_card_form').submit();
+				$.post("<?php echo site_url('sales/set_delivery_infomation'); ?>", {
+					'delivery_date': $("#delivery_date").val(),
+					'delivery_time': $("#delivery_time").val(),
+					'balance': $("#balance").val()
+				}, function()
+				{
+					$('#credit_card_form').submit();
+				});
 			<?php
 			}
 			else

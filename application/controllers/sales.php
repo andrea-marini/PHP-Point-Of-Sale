@@ -162,7 +162,17 @@ class Sales extends Secure_area
 		$this->sale_lib->delete_customer();
 		$this->_reload();
 	}
-
+	
+	function set_delivery_infomation()
+	{
+		$this->session->set_userdata(
+		array(
+			'delivery_date' => $this->input->post('delivery_date'),
+			'delivery_time' => $this->input->post('delivery_time'),
+			'balance' => $this->input->post('balance')
+		));
+	}
+	
 	function complete()
 	{
 		$data['cart']=$this->sale_lib->get_cart();
@@ -173,9 +183,9 @@ class Sales extends Secure_area
 		$data['transaction_time']= date('m/d/Y h:i:s a');
 		$customer_id=$this->sale_lib->get_customer();
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
-		$delivery_date = date('Y-m-d', strtotime($this->input->post('delivery_date')));
-		$delivery_time = $this->input->post('delivery_time');
-		$balance = $this->input->post('balance');
+		$delivery_date = $this->input->post('delivery_date') ? date('Y-m-d', strtotime($this->input->post('delivery_date'))) : date('Y-m-d', strtotime($this->session->userdata('delivery_date')));
+		$delivery_time = $this->input->post('delivery_time') ? $this->input->post('delivery_time') : $this->session->userdata('delivery_time');
+		$balance = $this->input->post('balance') ? $this->input->post('balance') : $this->session->userdata('balance');
 		$comment = $this->input->post('comment') ? $this->input->post('comment') : $this->input->get('transaction_id');
 		$emp_info=$this->Employee->get_info($employee_id);
 		$payment_type = $this->input->post('payment_type');
@@ -214,6 +224,8 @@ class Sales extends Secure_area
 		}
 		$this->load->view("sales/receipt",$data);
 		$this->sale_lib->clear_all();
+		//Remove possible session data
+		$this->session->unset_userdata(array('delivery_date', 'delivery_time', 'balance'));
 	}
 
 	function receipt($sale_id)
@@ -308,6 +320,11 @@ class Sales extends Secure_area
 			$this->lang->line('sales_debit') => $this->lang->line('sales_debit'),
 			$this->lang->line('sales_credit') => $this->lang->line('sales_credit')
 		);
+		
+		if ($this->Appconfig->get('enable_credit_card_processing'))
+		{
+			$data['payment_options'][$this->lang->line('sales_integrated_credit_card')] = $this->lang->line('sales_integrated_credit_card');
+		}
 
 		$customer_id=$this->sale_lib->get_customer();
 		if($customer_id!=-1)
