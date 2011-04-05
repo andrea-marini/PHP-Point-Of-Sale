@@ -1,32 +1,36 @@
 -- phpMyAdmin SQL Dump
--- version 2.8.2
+-- version 3.3.9
 -- http://www.phpmyadmin.net
--- 
--- Host: localhost:8889
--- Generation Time: Oct 07, 2010 at 12:41 PM
--- Server version: 5.1.50
--- PHP Version: 5.3.1
--- 
+--
+-- Host: localhost
+-- Generation Time: Apr 05, 2011 at 01:43 PM
+-- Server version: 5.1.54
+-- PHP Version: 5.3.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
 -- Database: `pos`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_app_config`
--- 
+--
 
-CREATE TABLE `phppos_app_config` (
+CREATE TABLE IF NOT EXISTS `phppos_app_config` (
   `key` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_app_config`
--- 
+--
 
-INSERT INTO `phppos_app_config` (`key`, `value`) VALUES ('address', '123 Nowhere street'),
+INSERT INTO `phppos_app_config` (`key`, `value`) VALUES
+('address', '123 Nowhere street'),
 ('company', 'PHP Point Of Sale, Inc'),
 ('default_tax_rate', '8'),
 ('email', 'admin@phppointofsale.com'),
@@ -38,32 +42,36 @@ INSERT INTO `phppos_app_config` (`key`, `value`) VALUES ('address', '123 Nowhere
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_customers`
--- 
+--
 
-CREATE TABLE `phppos_customers` (
+CREATE TABLE IF NOT EXISTS `phppos_customers` (
   `person_id` int(10) NOT NULL,
   `account_number` varchar(255) DEFAULT NULL,
   `taxable` int(1) NOT NULL DEFAULT '1',
-  `zone` VARCHAR( 255 ) NOT NULL,
+  `zone` varchar(255) NOT NULL,
+  `cc_number` varchar(255) NOT NULL,
+  `cc_expiration` varchar(255) NOT NULL,
+  `cc_security_code` varchar(255) NOT NULL,
+  `billing_zip` varchar(255) NOT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `account_number` (`account_number`),
   KEY `person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_customers`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_employees`
--- 
+--
 
-CREATE TABLE `phppos_employees` (
+CREATE TABLE IF NOT EXISTS `phppos_employees` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `person_id` int(10) NOT NULL,
@@ -72,64 +80,12 @@ CREATE TABLE `phppos_employees` (
   KEY `person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_employees`
--- 
+--
 
-INSERT INTO `phppos_employees` (`username`, `password`, `person_id`, `deleted`) VALUES ('admin', '439a6de57d475c1a0ba9bcb1c39f0af6', 1, 0);
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `phppos_inventory`
--- 
-
-CREATE TABLE `phppos_inventory` (
-  `trans_id` int(11) NOT NULL AUTO_INCREMENT,
-  `trans_items` int(11) NOT NULL DEFAULT '0',
-  `trans_user` int(11) NOT NULL DEFAULT '0',
-  `trans_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `trans_comment` text NOT NULL,
-  `trans_inventory` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`trans_id`),
-  KEY `phppos_inventory_ibfk_1` (`trans_items`),
-  KEY `phppos_inventory_ibfk_2` (`trans_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Dumping data for table `phppos_inventory`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `phppos_items`
--- 
-
-CREATE TABLE `phppos_items` (
-  `name` varchar(255) NOT NULL,
-  `category` varchar(255) NOT NULL,
-  `supplier_id` int(11) DEFAULT NULL,
-  `item_number` varchar(255) DEFAULT NULL,
-  `description` varchar(255) NOT NULL,
-  `cost_price` double(15,2) NOT NULL,
-  `unit_price` double(15,2) NOT NULL,
-  `quantity` double(15,2) NOT NULL DEFAULT '0.00',
-  `reorder_level` double(15,2) NOT NULL DEFAULT '0.00',
-  `item_id` int(10) NOT NULL AUTO_INCREMENT,
-  `allow_alt_description` tinyint(1) NOT NULL,
-  `is_serialized` tinyint(1) NOT NULL,
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`item_id`),
-  UNIQUE KEY `item_number` (`item_number`),
-  KEY `phppos_items_ibfk_1` (`supplier_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Dumping data for table `phppos_items`
--- 
-
+INSERT INTO `phppos_employees` (`username`, `password`, `person_id`, `deleted`) VALUES
+('admin', '439a6de57d475c1a0ba9bcb1c39f0af6', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -150,31 +106,85 @@ CREATE TABLE IF NOT EXISTS `phppos_giftcards` (
 -- Dumping data for table `phppos_giftcards`
 --
 
+
 -- --------------------------------------------------------
 
--- 
--- Table structure for table `phppos_items_taxes`
--- 
+--
+-- Table structure for table `phppos_inventory`
+--
 
-CREATE TABLE `phppos_items_taxes` (
+CREATE TABLE IF NOT EXISTS `phppos_inventory` (
+  `trans_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trans_items` int(11) NOT NULL DEFAULT '0',
+  `trans_user` int(11) NOT NULL DEFAULT '0',
+  `trans_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `trans_comment` text NOT NULL,
+  `trans_inventory` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`trans_id`),
+  KEY `phppos_inventory_ibfk_1` (`trans_items`),
+  KEY `phppos_inventory_ibfk_2` (`trans_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `phppos_inventory`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phppos_items`
+--
+
+CREATE TABLE IF NOT EXISTS `phppos_items` (
+  `name` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `item_number` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL,
+  `cost_price` double(15,2) NOT NULL,
+  `unit_price` double(15,2) NOT NULL,
+  `quantity` double(15,2) NOT NULL DEFAULT '0.00',
+  `reorder_level` double(15,2) NOT NULL DEFAULT '0.00',
+  `item_id` int(10) NOT NULL AUTO_INCREMENT,
+  `allow_alt_description` tinyint(1) NOT NULL,
+  `is_serialized` tinyint(1) NOT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`item_id`),
+  UNIQUE KEY `item_number` (`item_number`),
+  KEY `phppos_items_ibfk_1` (`supplier_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `phppos_items`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phppos_items_taxes`
+--
+
+CREATE TABLE IF NOT EXISTS `phppos_items_taxes` (
   `item_id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
   `percent` double(15,2) NOT NULL,
   PRIMARY KEY (`item_id`,`name`,`percent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_items_taxes`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_modules`
--- 
+--
 
-CREATE TABLE `phppos_modules` (
+CREATE TABLE IF NOT EXISTS `phppos_modules` (
   `name_lang_key` varchar(255) NOT NULL,
   `desc_lang_key` varchar(255) NOT NULL,
   `sort` int(10) NOT NULL,
@@ -184,28 +194,28 @@ CREATE TABLE `phppos_modules` (
   UNIQUE KEY `name_lang_key` (`name_lang_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_modules`
--- 
+--
 
 INSERT INTO `phppos_modules` (`name_lang_key`, `desc_lang_key`, `sort`, `module_id`) VALUES
 ('module_config', 'module_config_desc', 8, 'config'),
 ('module_customers', 'module_customers_desc', 1, 'customers'),
 ('module_employees', 'module_employees_desc', 7, 'employees'),
+('module_giftcards', 'module_giftcards_desc', 9, 'giftcards'),
 ('module_items', 'module_items_desc', 2, 'items'),
 ('module_receivings', 'module_receivings_desc', 5, 'receivings'),
 ('module_reports', 'module_reports_desc', 3, 'reports'),
 ('module_sales', 'module_sales_desc', 6, 'sales'),
-('module_suppliers', 'module_suppliers_desc', 4, 'suppliers'),
-('module_giftcards', 'module_giftcards_desc', 9, 'giftcards');
+('module_suppliers', 'module_suppliers_desc', 4, 'suppliers');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_people`
--- 
+--
 
-CREATE TABLE `phppos_people` (
+CREATE TABLE IF NOT EXISTS `phppos_people` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `phone_number` varchar(255) NOT NULL,
@@ -219,48 +229,50 @@ CREATE TABLE `phppos_people` (
   `comments` text NOT NULL,
   `person_id` int(10) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`person_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
--- 
+--
 -- Dumping data for table `phppos_people`
--- 
+--
 
-INSERT INTO `phppos_people` (`first_name`, `last_name`, `phone_number`, `email`, `address_1`, `address_2`, `city`, `state`, `zip`, `country`, `comments`, `person_id`) VALUES ('John', 'Doe', '555-555-5555', 'admin@phppointofsale.com', 'Address 1', '', '', '', '', '', '', 1);
+INSERT INTO `phppos_people` (`first_name`, `last_name`, `phone_number`, `email`, `address_1`, `address_2`, `city`, `state`, `zip`, `country`, `comments`, `person_id`) VALUES
+('John', 'Doe', '555-555-5555', 'admin@phppointofsale.com', 'Address 1', '', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_permissions`
--- 
+--
 
-CREATE TABLE `phppos_permissions` (
+CREATE TABLE IF NOT EXISTS `phppos_permissions` (
   `module_id` varchar(255) NOT NULL,
   `person_id` int(10) NOT NULL,
   PRIMARY KEY (`module_id`,`person_id`),
   KEY `person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_permissions`
--- 
+--
 
-INSERT INTO `phppos_permissions` (`module_id`, `person_id`) VALUES ('config', 1),
+INSERT INTO `phppos_permissions` (`module_id`, `person_id`) VALUES
+('config', 1),
 ('customers', 1),
 ('employees', 1),
+('giftcards', 1),
 ('items', 1),
 ('receivings', 1),
 ('reports', 1),
 ('sales', 1),
-('giftcards', 1),
 ('suppliers', 1);
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_receivings`
--- 
+--
 
-CREATE TABLE `phppos_receivings` (
+CREATE TABLE IF NOT EXISTS `phppos_receivings` (
   `receiving_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `supplier_id` int(10) DEFAULT NULL,
   `employee_id` int(10) NOT NULL DEFAULT '0',
@@ -272,18 +284,18 @@ CREATE TABLE `phppos_receivings` (
   KEY `employee_id` (`employee_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Dumping data for table `phppos_receivings`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_receivings_items`
--- 
+--
 
-CREATE TABLE `phppos_receivings_items` (
+CREATE TABLE IF NOT EXISTS `phppos_receivings_items` (
   `receiving_id` int(10) NOT NULL DEFAULT '0',
   `item_id` int(10) NOT NULL DEFAULT '0',
   `description` varchar(30) DEFAULT NULL,
@@ -297,22 +309,22 @@ CREATE TABLE `phppos_receivings_items` (
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_receivings_items`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_sales`
--- 
+--
 
-CREATE TABLE `phppos_sales` (
+CREATE TABLE IF NOT EXISTS `phppos_sales` (
   `sale_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `delivery_date` DATE NOT NULL,
-  `delivery_time` VARCHAR( 255 ) NOT NULL,
-  `balance` DOUBLE( 15, 2 ) NOT NULL,
+  `delivery_date` date NOT NULL,
+  `delivery_time` varchar(255) NOT NULL,
+  `balance` double(15,2) NOT NULL,
   `customer_id` int(10) DEFAULT NULL,
   `employee_id` int(10) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
@@ -323,18 +335,18 @@ CREATE TABLE `phppos_sales` (
   KEY `employee_id` (`employee_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- 
+--
 -- Dumping data for table `phppos_sales`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_sales_items`
--- 
+--
 
-CREATE TABLE `phppos_sales_items` (
+CREATE TABLE IF NOT EXISTS `phppos_sales_items` (
   `sale_id` int(10) NOT NULL DEFAULT '0',
   `item_id` int(10) NOT NULL DEFAULT '0',
   `description` varchar(30) DEFAULT NULL,
@@ -348,18 +360,18 @@ CREATE TABLE `phppos_sales_items` (
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_sales_items`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_sales_items_taxes`
--- 
+--
 
-CREATE TABLE `phppos_sales_items_taxes` (
+CREATE TABLE IF NOT EXISTS `phppos_sales_items_taxes` (
   `sale_id` int(10) NOT NULL,
   `item_id` int(10) NOT NULL,
   `line` int(3) NOT NULL DEFAULT '0',
@@ -369,36 +381,36 @@ CREATE TABLE `phppos_sales_items_taxes` (
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_sales_items_taxes`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_sales_payments`
--- 
+--
 
-CREATE TABLE `phppos_sales_payments` (
+CREATE TABLE IF NOT EXISTS `phppos_sales_payments` (
   `sale_id` int(10) NOT NULL,
   `payment_type` varchar(40) NOT NULL,
   `payment_amount` decimal(15,2) NOT NULL,
   PRIMARY KEY (`sale_id`,`payment_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_sales_payments`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_sessions`
--- 
+--
 
-CREATE TABLE `phppos_sessions` (
+CREATE TABLE IF NOT EXISTS `phppos_sessions` (
   `session_id` varchar(40) NOT NULL DEFAULT '0',
   `ip_address` varchar(16) NOT NULL DEFAULT '0',
   `user_agent` varchar(50) NOT NULL,
@@ -407,18 +419,18 @@ CREATE TABLE `phppos_sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_sessions`
--- 
+--
 
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `phppos_suppliers`
--- 
+--
 
-CREATE TABLE `phppos_suppliers` (
+CREATE TABLE IF NOT EXISTS `phppos_suppliers` (
   `person_id` int(10) NOT NULL,
   `company_name` varchar(255) NOT NULL,
   `account_number` varchar(255) DEFAULT NULL,
@@ -427,96 +439,96 @@ CREATE TABLE `phppos_suppliers` (
   KEY `person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 
+--
 -- Dumping data for table `phppos_suppliers`
--- 
+--
 
 
--- 
+--
 -- Constraints for dumped tables
--- 
+--
 
--- 
+--
 -- Constraints for table `phppos_customers`
--- 
+--
 ALTER TABLE `phppos_customers`
   ADD CONSTRAINT `phppos_customers_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_employees`
--- 
+--
 ALTER TABLE `phppos_employees`
   ADD CONSTRAINT `phppos_employees_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_inventory`
--- 
+--
 ALTER TABLE `phppos_inventory`
   ADD CONSTRAINT `phppos_inventory_ibfk_1` FOREIGN KEY (`trans_items`) REFERENCES `phppos_items` (`item_id`),
   ADD CONSTRAINT `phppos_inventory_ibfk_2` FOREIGN KEY (`trans_user`) REFERENCES `phppos_employees` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_items`
--- 
+--
 ALTER TABLE `phppos_items`
   ADD CONSTRAINT `phppos_items_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `phppos_suppliers` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_items_taxes`
--- 
+--
 ALTER TABLE `phppos_items_taxes`
   ADD CONSTRAINT `phppos_items_taxes_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`) ON DELETE CASCADE;
 
--- 
+--
 -- Constraints for table `phppos_permissions`
--- 
+--
 ALTER TABLE `phppos_permissions`
   ADD CONSTRAINT `phppos_permissions_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_employees` (`person_id`),
   ADD CONSTRAINT `phppos_permissions_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `phppos_modules` (`module_id`);
 
--- 
+--
 -- Constraints for table `phppos_receivings`
--- 
+--
 ALTER TABLE `phppos_receivings`
   ADD CONSTRAINT `phppos_receivings_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
   ADD CONSTRAINT `phppos_receivings_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `phppos_suppliers` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_receivings_items`
--- 
+--
 ALTER TABLE `phppos_receivings_items`
   ADD CONSTRAINT `phppos_receivings_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
   ADD CONSTRAINT `phppos_receivings_items_ibfk_2` FOREIGN KEY (`receiving_id`) REFERENCES `phppos_receivings` (`receiving_id`);
 
--- 
+--
 -- Constraints for table `phppos_sales`
--- 
+--
 ALTER TABLE `phppos_sales`
   ADD CONSTRAINT `phppos_sales_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `phppos_employees` (`person_id`),
   ADD CONSTRAINT `phppos_sales_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `phppos_customers` (`person_id`);
 
--- 
+--
 -- Constraints for table `phppos_sales_items`
--- 
+--
 ALTER TABLE `phppos_sales_items`
   ADD CONSTRAINT `phppos_sales_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
   ADD CONSTRAINT `phppos_sales_items_ibfk_2` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`);
 
--- 
+--
 -- Constraints for table `phppos_sales_items_taxes`
--- 
+--
 ALTER TABLE `phppos_sales_items_taxes`
-  ADD CONSTRAINT `phppos_sales_items_taxes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_items` (`sale_id`),
-  ADD CONSTRAINT `phppos_sales_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`);
+  ADD CONSTRAINT `phppos_sales_items_taxes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `phppos_items` (`item_id`),
+  ADD CONSTRAINT `phppos_sales_items_taxes_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales_items` (`sale_id`);
 
--- 
+--
 -- Constraints for table `phppos_sales_payments`
--- 
+--
 ALTER TABLE `phppos_sales_payments`
   ADD CONSTRAINT `phppos_sales_payments_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `phppos_sales` (`sale_id`);
 
--- 
+--
 -- Constraints for table `phppos_suppliers`
--- 
+--
 ALTER TABLE `phppos_suppliers`
   ADD CONSTRAINT `phppos_suppliers_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `phppos_people` (`person_id`);
