@@ -234,15 +234,15 @@ else
 			      <fieldset>
 			        <div>
 			          <label>Credit Card Number</label>
-			          <input type="text" class="text required creditcard" size="15" name="x_card_num" value=""></input>
+			          <input type="text" class="text required creditcard" size="15" name="x_card_num" value="<?php echo isset($customer_info->cc_number) ? $customer_info->cc_number : ''; ?>"></input>
 			        </div>
 			        <div>
 			          <label>Exp.</label>
-			          <input type="text" class="text required" size="4" name="x_exp_date" value=""></input>
+			          <input type="text" class="text required" size="4" name="x_exp_date" value="<?php echo isset($customer_info->cc_expiration) ? $customer_info->cc_expiration : ''; ?>"></input>
 			        </div>
 			        <div>
 			          <label>CCV</label>
-			          <input type="text" class="text required" size="4" name="x_card_code" value=""></input>
+			          <input type="text" class="text required" size="4" name="x_card_code" value="<?php echo isset($customer_info->cc_security_code) ? $customer_info->cc_security_code : ''; ?>"></input>
 			        </div>
 			      </fieldset>
 			      <fieldset>
@@ -272,7 +272,7 @@ else
 			        </div>
 			        <div>
 			          <label>Zip Code</label>
-			          <input type="text" class="text required" size="9" name="x_zip" value="<?php echo isset($customer_info->zip) ? $customer_info->zip : ''; ?>"></input>
+			          <input type="text" class="text required" size="9" name="x_zip" value="<?php echo isset($customer_info->billing_zip) ? $customer_info->billing_zip : ''; ?>"></input>
 			        </div>
 			        <div>
 			          <label>Country</label>
