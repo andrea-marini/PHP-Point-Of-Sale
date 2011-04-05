@@ -162,6 +162,28 @@ else
 ?>
 </tbody>
 </table>
+<?php
+if(isset($customer))
+{
+?>
+<div id="last_15_items_purchased">
+	<h2>Last 15 items Purchased by <?php echo $customer;?></h2>
+	<hr />
+	<ul>
+		<?php
+		foreach($recent_purchased_items->result() as $item)
+		{
+		?>
+			<li><?php echo $item->item_number. ' - '.$item->name. ' - '. $item->description; ?></li>
+		<?php	
+		}	
+		?>
+	</ul>
+
+</div>
+<?php
+}
+?>
 </div>
 
 

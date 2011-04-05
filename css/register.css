@@ -85,6 +85,15 @@
 	
 }
 
+#last_15_items_purchased
+{
+	margin-top: 10px;
+}
+
+#last_15_items_purchased ul
+{
+	margin: 20px;
+}
 #sale_details
 {
 	position:relative;

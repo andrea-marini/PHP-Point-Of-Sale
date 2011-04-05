@@ -332,6 +332,7 @@ class Sales extends Secure_area
 			$info=$this->Customer->get_info($customer_id);
 			$data['customer']=$info->first_name.' '.$info->last_name;
 			$data['customer_info'] = $info;
+			$data['recent_purchased_items'] = $this->Sale->get_recent_purchased_items($customer_id);
 		}
 		
 		if (isset($data['payments'][$this->lang->line('sales_integrated_credit_card')]))

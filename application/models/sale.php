@@ -172,12 +172,26 @@ class Sale extends Model
 		$this->db->where('sale_id',$sale_id);
 		return $this->Customer->get_info($this->db->get()->row()->customer_id);
 	}
+	
+	function get_recent_purchased_items($customer_id, $limit = 15)
+	{
+		$this->create_sales_items_temp_table();
+		
+		$this->db->select("items.*");
+		$this->db->from('sales_items_temp');
+		$this->db->join('items', 'sales_items_temp.item_id = items.item_id');
+		$this->db->where('customer_id',$customer_id);
+		$this->db->order_by('sale_time DESC');
+		$this->db->limit($limit);
+		
+		return $this->db->get();
+	}
 
 	//We create a temp table that allows us to do easy report/sales queries
 	public function create_sales_items_temp_table()
 	{
 		$this->db->query("CREATE TEMPORARY TABLE ".$this->db->dbprefix('sales_items_temp')."
-		(SELECT date(sale_time) as sale_date, delivery_date, delivery_time, zone,".$this->db->dbprefix('sales_items').".sale_id, balance as sale_balance, comment,payment_type, customer_id, employee_id, 
+		(SELECT sale_time, date(sale_time) as sale_date, delivery_date, delivery_time, zone,".$this->db->dbprefix('sales_items').".sale_id, balance as sale_balance, comment,payment_type, customer_id, employee_id, 
 		".$this->db->dbprefix('items').".item_id, supplier_id, quantity_purchased, item_cost_price, item_unit_price, SUM(percent) as item_tax_percent,
 		discount_percent, (item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) as subtotal,
 		".$this->db->dbprefix('sales_items').".line as line, serialnumber, ".$this->db->dbprefix('sales_items').".description as description,
