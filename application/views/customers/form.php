@@ -25,6 +25,50 @@ echo form_open('customers/save/'.$person_info->person_id,array('id'=>'customer_f
 </div>
 
 <div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('customers_cc_number').':', 'cc_number'); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'cc_number',
+		'id'=>'cc_number',
+		'value'=>$person_info->cc_number)
+	);?>
+	</div>
+</div>
+
+<div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('customers_cc_expiration').':', 'cc_expiration'); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'cc_expiration',
+		'id'=>'cc_expiration',
+		'value'=>$person_info->cc_expiration)
+	);?>
+	</div>
+</div>
+
+<div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('customers_cc_security_code').':', 'cc_security_code'); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'cc_security_code',
+		'id'=>'cc_security_code',
+		'value'=>$person_info->cc_security_code)
+	);?>
+	</div>
+</div>
+
+<div class="field_row clearfix">	
+<?php echo form_label($this->lang->line('customers_billing_zip').':', 'billing_zip'); ?>
+	<div class='form_field'>
+	<?php echo form_input(array(
+		'name'=>'billing_zip',
+		'id'=>'billing_zip',
+		'value'=>$person_info->billing_zip)
+	);?>
+	</div>
+</div>
+
+<div class="field_row clearfix">	
 <?php echo form_label($this->lang->line('customers_taxable').':', 'taxable'); ?>
 	<div class='form_field'>
 	<?php echo form_checkbox('taxable', '1', $person_info->taxable == '' ? TRUE : (boolean)$person_info->taxable);?>

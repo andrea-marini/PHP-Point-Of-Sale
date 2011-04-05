@@ -78,6 +78,10 @@ class Customers extends Person_controller
 		$customer_data=array(
 		'account_number'=>$this->input->post('account_number')=='' ? null:$this->input->post('account_number'),
 		'zone'=>$this->input->post('zone'),
+		'cc_number'=>$this->input->post('cc_number'),
+		'cc_expiration'=>$this->input->post('cc_expiration'),
+		'cc_security_code'=>$this->input->post('cc_security_code'),
+		'billing_zip'=>$this->input->post('billing_zip'),
 		'taxable'=>$this->input->post('taxable')=='' ? 0:1,
 		);
 		if($this->Customer->save($person_data,$customer_data,$customer_id))
@@ -162,6 +166,10 @@ class Customers extends Person_controller
 					'account_number'=>$data[11]=='' ? null:$data[11],
 					'taxable'=>$data[12]=='' ? 0:1,
 					'zone'=>$data[13],
+					'cc_number'=>$data[14],
+					'cc_expiration'=>$data[15],
+					'cc_security_code'=>$data[16],
+					'billing_zip'=>$data[17]
 					);
 					
 					if(!$this->Customer->save($person_data,$customer_data))
@@ -174,7 +182,7 @@ class Customers extends Person_controller
 			}
 			else 
 			{
-				echo json_encode( array('success'=>true,'message'=>'Your upload file has no data or not in supported format.') );
+				echo json_encode( array('success'=>false,'message'=>'Your upload file has no data or not in supported format.') );
 				return;
 			}
 		}

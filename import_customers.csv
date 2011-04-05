@@ -1,2 +1,2 @@
-First Name,Last Name,E-Mail,Phone Number,Address 1,Address2,City,State,Zip,Country,Comments,Account Number,Taxable, Zone
-Bob,Smith,bsmith@nowhere.com,585-555-1111,123 Nowhere Street,Apt 4,Awesome,NY,11111,USA,Awesome guy,,y,Zone
+First Name,Last Name,E-Mail,Phone Number,Address 1,Address2,City,State,Zip,Country,Comments,Account Number,Taxable,Zone,CC Number,CC Expiration,CC Security Code,Billing Zip
+Bob,Smith,bsmith@nowhere.com,585-555-1111,123 Nowhere Street,Apt 4,Awesome,NY,11111,USA,Awesome guy,,y,Zone,,,,

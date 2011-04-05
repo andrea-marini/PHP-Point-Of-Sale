@@ -15,4 +15,8 @@ $lang['customers_account_number']='Account #';
 $lang['customers_taxable']='Taxable';
 $lang['customers_zone'] = 'Zone';
 $lang['customers_zone_required'] = 'Zone is a required field';
+$lang['customers_cc_number'] = "Credit Card #";
+$lang['customers_cc_expiration'] = "Credit Card Exp.";
+$lang['customers_cc_security_code'] = "CC Security #";
+$lang['customers_billing_zip'] = "Billing Zip";
 ?>
