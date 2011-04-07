@@ -1,0 +1,76 @@
+	html,body {
+		margin:0;
+		padding:0;
+		color:#000;
+		background:#fff;
+	}
+	body {
+		font:76%/135% "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+		padding:0 0 10px 0;
+		min-width:900px;
+	}
+	#wrap {
+		width:1130px;
+		margin:0 auto;
+	}
+	#main {
+		clear:both;
+		margin:20px 80px;
+	}
+	/* CSS for the tabs starts here */
+	#header {
+		height:150px;
+		background:url(../images/header.png) 0 0 no-repeat;
+	}
+	#nav {
+		float:left;
+		width:1122px;
+		margin-top:-19px;
+		font-size:0.94em;
+		line-height:1em;
+	}
+	#nav ul {
+		margin:0;
+		padding:0 0 0 28px;
+		list-style:none;
+	}
+	#nav li {
+		float:left;
+		margin:0 0 0 -1px;
+		padding:0 0 0 6px;
+		background:url(../images/nav1.gif) 0 100% no-repeat;
+	}
+	#nav li:hover {
+		background-position:-6px 100%;
+	}
+	#nav a {
+		float:left;
+		display:block;
+		font-size: 17px;
+		color:#000;
+		font-weight:bold;
+		font-family:Georgia,Times,"Times New Roman",serif;
+		background:url(../images/nav2.gif) 100% 100% no-repeat;
+		padding:15px 14px 22px 8px;
+		text-decoration:none;
+	}
+	#nav li:hover a {
+		background-image:url(../images/nav1.gif);
+	}
+	/* Hide from IE5-Mac \*/
+	#nav a {float:none;}
+	/* End IE5-Mac hack */
+	#nav a:hover {
+		color:#000;
+		text-decoration:underline;
+	}
+	#nav #current {
+		background-position:-12px 100%;
+		padding-left:26px;
+		margin:0 2px 0 1px;
+	}
+	#nav #current a {
+		background-image:url(../images/nav2s.gif);
+		padding-left:0;
+		padding-right:19px;
+	}
