@@ -57,20 +57,23 @@ function post_person_form_submit(response)
 </script>
 
 <div id="title_bar">
-	<div id="title" class="float_left"><?php echo $this->lang->line('common_list_of').' '.$this->lang->line('module_'.$controller_name); ?></div>
+	<div id="title_block">
+	<h2><?php echo $this->lang->line('common_list_of')." ".$this->lang->line('module_'.$controller_name); ?> </h2>
+	</div>
 	<div id="new_button">
 		<?php echo anchor("$controller_name/view/-1/width:$form_width",
-		"<div class='big_button' style='float: left;'><span>".$this->lang->line($controller_name.'_new')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line($controller_name.'_new')));
+		"<span>".$this->lang->line($controller_name.'_new')."</span>",
+		array('class'=>'button','title'=>$this->lang->line($controller_name.'_new')));
 		?>
-		<?php if ($controller_name =='customers') {?>
-			<?php echo anchor("$controller_name/excel_import/width:$form_width",
-			"<div class='big_button' style='float: left;'><span>Excel Import</span></div>",
-				array('class'=>'thickbox none','title'=>'Import Items from Excel'));
-			?>	
-		<?php } ?>
+		<?php if ($controller_name =='customers') {
+		 echo anchor("$controller_name/excel_import/width:$form_width",
+		"<span>Excel Import</span>",
+		array('class'=>'button','title'=>'Import Items from Excel'));
+		}
+		?>
 	</div>
 </div>
+
 <?php echo $this->pagination->create_links();?>
 <div id="table_action_header">
 	<ul>

@@ -1,5 +1,11 @@
 <?php $this->load->view("partial/header"); ?>
-<div id="page_title" style="margin-bottom:8px;"><?php echo $this->lang->line('sales_register'); ?></div>
+
+<div id="title_bar">
+	<div id="title_block">
+	<h2><?php echo $this->lang->line('sales_register'); ?> </h2>
+	</div>
+</div>
+
 <?php
 if(isset($error))
 {
@@ -22,8 +28,8 @@ if (isset($success))
 <?php echo form_dropdown('mode',$modes,$mode,'onchange="$(\'#mode_form\').submit();"'); ?>
 <div id="show_suspended_sales_button">
 	<?php echo anchor("sales/suspended/width:425",
-	"<div class='small_button'><span style='font-size:73%;'>".$this->lang->line('sales_suspended_sales')."</span></div>",
-	array('class'=>'thickbox none','title'=>$this->lang->line('sales_suspended_sales')));
+	"<span>".$this->lang->line('sales_suspended_sales')."</span>",
+	array('class'=>'button','title'=>$this->lang->line('sales_suspended_sales')));
 	?>
 </div>
 </form>
@@ -44,8 +50,8 @@ else
 <?php echo form_input(array('name'=>'item','id'=>'item','size'=>'40'));?>
 <div id="new_item_button_register" >
 		<?php echo anchor("items/view/-1/width:360",
-		"<div class='small_button'><span>".$this->lang->line('sales_new_item')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line('sales_new_item')));
+		"<span>".$this->lang->line('sales_new_item')."</span>",
+		array('class'=>'button','title'=>$this->lang->line('sales_new_item')));
 		?>
 	</div>
 
@@ -192,8 +198,8 @@ else
 		<div style="margin-top:5px;text-align:center;">
 		<h3 style="margin: 5px 0 5px 0"><?php echo $this->lang->line('common_or'); ?></h3>
 		<?php echo anchor("customers/view/-1/width:350",
-		"<div class='small_button' style='margin:0 auto;'><span>".$this->lang->line('sales_new_customer')."</span></div>",
-		array('class'=>'thickbox none','title'=>$this->lang->line('sales_new_customer')));
+		"<span>".$this->lang->line('sales_new_customer')."</span>",
+		array('class'=>'button','title'=>$this->lang->line('sales_new_customer')));
 		?>
 		</div>
 		<div class="clearfix">&nbsp;</div>

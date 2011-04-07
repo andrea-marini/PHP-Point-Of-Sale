@@ -17,31 +17,64 @@ body
 	background-color:#f7f7f7;
 }
 
-a.none
+a
 {
 	text-decoration:none;
+	color:#2361A1;
 }
 
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+a.button {
+    background: transparent url('../images/bg_button_a.png') no-repeat scroll top right;
+    color: #333;
+    display: block;
+    float: left;
+    font: normal 17px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('../images/bg_button_span.png') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+} 
+
+a.button:active {
+    background-position: bottom right;
+    color: #333;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 
 
 #content_area_wrapper
 {
 	position:relative;
 	width:100%;
 	background-color:#FFFFFF;	
-	margin:0px;
+	margin:30px;
 	padding:0px;
 	border-bottom:1px solid #CCCCCC;
 	text-align:center;	
-
 }
 
 #content_area
 {
 	position:relative;
 	margin:0 auto;
-	width:875px;
+	width:1000px;
 	text-align:left;
-	
 }
 
 #title_bar
@@ -70,7 +103,6 @@ a.none
 	font-weight:bold;
 	color:#000000;
 	text-align:center;
-
 }
 
 #page_subtitle
@@ -140,6 +172,7 @@ a.none
 {
 	display: none;
 }
+
 #footer
 {
 	position:relative;
@@ -149,5 +182,15 @@ a.none
 	font-size:11px;
 	color:#777777;
 	clear:both;
-	
+}
+
+#title_block h2{
+	color:#444444;
+	font-size:30px;
+	font-style:normal;
+	font-weight:bold;
+	letter-spacing:-1px;
+	line-height:115%;
+	margin-top:5px;
+	padding:0;
 }

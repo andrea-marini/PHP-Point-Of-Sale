@@ -74,11 +74,11 @@
 #menubar_footer
 {
 	position:absolute;
-	top:80px;
-	left:0px;
-	height:17%;
+	top:105px;
+	left:100px;
+	height:5%;
 	padding-top:3px;
-	font-size:8pt;
+	font-size:12pt;
 	font-weight:bold;
 }
 

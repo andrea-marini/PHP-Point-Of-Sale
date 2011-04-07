@@ -1,5 +1,11 @@
 <?php $this->load->view("partial/header"); ?>
-<div id="page_title"><?php echo $this->lang->line('module_config'); ?></div>
+
+<div id="title_bar">
+	<div id="title_block">
+	<h2><?php echo $this->lang->line('module_config'); ?> </h2>
+	</div>
+</div>
+
 <?php
 echo form_open('config/save/',array('id'=>'config_form'));
 ?>
